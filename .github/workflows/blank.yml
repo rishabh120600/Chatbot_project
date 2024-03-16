@@ -1,0 +1,29 @@
+name: Execute Notebook and Save Outputs
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  execute_notebook:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install notebook nbconvert
+
+    - name: Execute notebook
+      run: jupyter nbconvert --execute Deploy_Ass_4.ipynb --to html
+
+    - name: Save HTML output
+      uses: actions/upload-artifact@v2
+      with:
+        name: notebook-output
+        path: Deploy_Ass_4.html
